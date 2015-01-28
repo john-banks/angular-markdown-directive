@@ -22,14 +22,20 @@ angular.module('btford.markdown', ['ngSanitize']).
     return {
       restrict: 'AE',
       link: function (scope, element, attrs) {
+		var setHtml = function(text){
+		  if(attrs.skipSanitize){
+			  element.html(text);
+		  }
+		  else{
+			  element.html($sanitize(markdownConverter.makeHtml(text)));
+		  }
+		};
         if (attrs.btfMarkdown) {
           scope.$watch(attrs.btfMarkdown, function (newVal) {
-            var html = newVal ? $sanitize(markdownConverter.makeHtml(newVal)) : '';
-            element.html(html);
+			  setHtml(newVal ? newVal : '');
           });
         } else {
-          var html = $sanitize(markdownConverter.makeHtml(element.text()));
-          element.html(html);
+          setHtml(element.text());
         }
       }
     };
