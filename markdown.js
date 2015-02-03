@@ -24,7 +24,7 @@ angular.module('btford.markdown', ['ngSanitize']).
       link: function (scope, element, attrs) {
 		var setHtml = function(text){
 		  if(attrs.skipSanitize){
-			  element.html(text);
+			  element.html(markdownConverter.makeHtml(text));
 		  }
 		  else{
 			  element.html($sanitize(markdownConverter.makeHtml(text)));
